@@ -1,5 +1,6 @@
 
 import copy
+import random
 cube_dict = {'white': ['W0', 'W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7'], 'yellow': ['Y0', 'Y1', 'Y2', 'Y3', 'Y4', 'Y5', 'Y6', 'Y7'], 
              'green': ['G0', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7'], 'blue': ['B0', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7'], 
              'red': ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7'], 'orange': ['O0', 'O1', 'O2', 'O3', 'O4', 'O5', 'O6', 'O7']}
@@ -8,6 +9,8 @@ class cube:
         self.vec_list = vec_list
         self.tmp_queue = []
         self.moves = []
+        self.sig = {'white': 'down', 'yellow': 'up', 'green': 'back', 'blue': 'front', 'red': 'right', 'orange': 'left'}
+        
     def right(self):
         new = copy.deepcopy(self.vec_list)
         self.vec_list['blue'][2] = new['white'][2]
@@ -78,7 +81,7 @@ class cube:
         self.vec_list['orange'][5] = new['orange'][7]
         self.vec_list['orange'][6] = new['orange'][4]
         self.vec_list['orange'][7] = new['orange'][2]
-        self.mpves.append('L')
+        self.moves.append('L')
         return self.vec_list
     def left_prime(self):
         new = copy.deepcopy(self.vec_list)
@@ -264,14 +267,14 @@ class cube:
         self.vec_list['orange'][0] = new['white'][5]
         self.vec_list['orange'][3] = new['white'][6]
         self.vec_list['orange'][5] = new['white'][7]
-        self.vec_list['green'][0] = new['green'][5]
-        self.vec_list['green'][1] = new['green'][3]
-        self.vec_list['green'][2] = new['green'][0]
-        self.vec_list['green'][3] = new['green'][6]
-        self.vec_list['green'][4] = new['green'][1]
-        self.vec_list['green'][5] = new['green'][7]
-        self.vec_list['green'][6] = new['green'][4]
-        self.vec_list['green'][7] = new['green'][2]
+        self.vec_list['green'][0] = new['green'][2]
+        self.vec_list['green'][1] = new['green'][4]
+        self.vec_list['green'][2] = new['green'][7]
+        self.vec_list['green'][3] = new['green'][1]
+        self.vec_list['green'][4] = new['green'][6]
+        self.vec_list['green'][5] = new['green'][0]
+        self.vec_list['green'][6] = new['green'][3]
+        self.vec_list['green'][7] = new['green'][5]
         self.moves.append('B')
         return self.vec_list
     
@@ -289,30 +292,25 @@ class cube:
         self.vec_list['orange'][0] = new['yellow'][2]
         self.vec_list['orange'][3] = new['yellow'][1]
         self.vec_list['orange'][5] = new['yellow'][0]
-        self.vec_list['green'][0] = new['green'][2]
-        self.vec_list['green'][1] = new['green'][4]
-        self.vec_list['green'][2] = new['green'][7]
-        self.vec_list['green'][3] = new['green'][1]
-        self.vec_list['green'][4] = new['green'][6]
-        self.vec_list['green'][5] = new['green'][0]
-        self.vec_list['green'][6] = new['green'][3]
-        self.vec_list['green'][7] = new['green'][5]
+        self.vec_list['green'][0] = new['green'][5]
+        self.vec_list['green'][1] = new['green'][3]
+        self.vec_list['green'][2] = new['green'][0]
+        self.vec_list['green'][3] = new['green'][6]
+        self.vec_list['green'][4] = new['green'][1]
+        self.vec_list['green'][5] = new['green'][7]
+        self.vec_list['green'][6] = new['green'][4]
+        self.vec_list['green'][7] = new['green'][2]
         self.moves.append("B'")
         return self.vec_list
     
+
     
 colors = ['white', 'yellow', 'green', 'blue', 'red', 'orange']
 new_cube = cube(copy.deepcopy(cube_dict))
 
-def algo(cube):
-    cube.up()
-    cube.right()
-    cube.up_prime()
-    cube.right()
-x = 5
+def random_move(cube, moves, colors):
+    for i in range(moves):
+        seed = random.randint(0,5)
+        getattr(cube, (cube.sig[colors[seed]]))()
+        print(cube.sig[colors[seed]])
 
-
-
-for x in colors:
-    if (cube_dict[x] != new_cube.vec_list[x]):
-        print(new_cube.vec_list[x])
