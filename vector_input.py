@@ -10,7 +10,7 @@ class cube:
         self.tmp_queue = []
         self.moves = []
         self.sig = {'white': 'down', 'yellow': 'up', 'green': 'back', 'blue': 'front', 'red': 'right', 'orange': 'left'}
-        
+
     def right(self):
         new = copy.deepcopy(self.vec_list)
         self.vec_list['blue'][2] = new['white'][2]
@@ -302,9 +302,36 @@ class cube:
         self.vec_list['green'][7] = new['green'][2]
         self.moves.append("B'")
         return self.vec_list
-    
 
-    
+def get_color(cube, edge):
+        if edge in cube.vec_list['white']:
+            return 'white'
+        if edge in cube.vec_list['blue']:
+            return 'blue'
+        if edge in cube.vec_list['orange']:
+            return 'orange'
+        if edge in cube.vec_list['red']:
+            return 'red'
+        if edge in cube.vec_list['green']:
+            return 'green'
+        if edge in cube.vec_list['yellow']:
+            return 'yellow'
+        return 'error'
+
+def get_piece_color(piece):
+    if piece[0] == 'W':
+        return 'white'
+    if piece[0] == 'B':
+        return 'blue'
+    if piece[0] == 'O':
+        return 'orange'
+    if piece[0] == 'R':
+        return 'red'
+    if piece[0] == 'G':
+        return 'green'
+    if piece[0] == 'Y':
+        return 'yellow'
+    return 'error'
 colors = ['white', 'yellow', 'green', 'blue', 'red', 'orange']
 new_cube = cube(copy.deepcopy(cube_dict))
 

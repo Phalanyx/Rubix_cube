@@ -1,5 +1,6 @@
 import vector_input as vi
 from vector_input import cube_dict
+from vector_input import get_color
 import copy
 """ Important edges: W1/B6, W3/O6, W4/R6, W6/G1
 Care about: white = [junk, W1, junk, W3, W4, junk, W6, junk],
@@ -21,20 +22,7 @@ def check_cross(cube):
         cube.tmp_queue.append(['W6','G1', 'green', 'back'])
     return
 #returns what centre a certain edge is on
-def get_color(cube, edge):
-    if edge in cube.vec_list['white']:
-        return 'white'
-    if edge in cube.vec_list['blue']:
-        return 'blue'
-    if edge in cube.vec_list['orange']:
-        return 'orange'
-    if edge in cube.vec_list['red']:
-        return 'red'
-    if edge in cube.vec_list['green']:
-        return 'green'
-    if edge in cube.vec_list['yellow']:
-        return 'yellow'
-    return 'error'
+
 
 new = vi.cube(cube_dict)
 def white_cross(cube, edge):
@@ -55,12 +43,11 @@ def white_cross(cube, edge):
     tmp_move = cube.sig[get_color(cube, edge[1])]
     count = 0
     while (edge[0] not in cube.vec_list['yellow'] and edge[1] not in cube.vec_list['yellow']):
-        print(tmp_move)
         getattr(cube, tmp_move)()
         count += 1
     cube.up()
     while count > 0:
-        getattr(cube, tmp_move+'_prime')()
+        getattr(cube, tmp_move +'_prime')()
         count -= 1
     if (edge[0] in cube.vec_list['yellow']):
         while (edge[1] not in cube.vec_list[edge[2]]):
@@ -94,6 +81,12 @@ def check_end(cube):
         and cube.vec_list['white'][6] == 'W6' and cube.vec_list['green'][1] == 'G1'):
         return True
     return False
+def solve_white_cross(cube):
+    check_cross(cube)
+    new_copy = cube.tmp_queue.copy()
+    for x in new_copy:
+        white_cross(cube, x)
+#testing    
 if __name__ == '__main__':
     new = vi.cube(cube_dict)
     vi.random_move(new, 5, vi.colors)
